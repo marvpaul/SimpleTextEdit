@@ -1,0 +1,5 @@
+.text-area {
+    -fx-font: 25px "Comic Sans";
+        -fx-base: rgb(114, 109, 98);
+        -fx-text-fill: #FFFFFF;
+}
