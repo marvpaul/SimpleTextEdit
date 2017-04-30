@@ -3,7 +3,6 @@ package Model;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.File;
 
 /**
  * Created by Marvin Krüger S0556109.

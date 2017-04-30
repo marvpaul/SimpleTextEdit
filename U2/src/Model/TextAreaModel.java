@@ -1,29 +1,36 @@
 package Model;
 
-import View.GUI;
+import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 
 /**
  * Created by Marvin Krüger S0556109.
  */
 public class TextAreaModel {
+    private static TextArea ta;
     public static String getText(){
-       return GUI.ta.getText();
+       return ta.getText();
     }
 
     public static void setText(String value){
-        GUI.ta.setText(value);
+        ta.setText(value);
+    }
+
+    public static TextArea getTa() {
+        return ta;
+    }
+
+    public static void setTa(TextArea taN) {
+        ta = taN;
     }
 
     public static void clean(){
-        GUI.ta.setText("");
+        ta.setText("");
     }
 
     public static void save(){
@@ -34,7 +41,7 @@ public class TextAreaModel {
         fileChooser.getExtensionFilters().add(extFilter);
 
         //Show save file dialog
-        File file = fileChooser.showSaveDialog(GUI.prim);
+        File file = fileChooser.showSaveDialog(StageModel.getPrim());
 
         if(file != null) {
             try {
@@ -53,7 +60,7 @@ public class TextAreaModel {
         FileChooser fileChooser = new FileChooser();
 
         //Show file dialog
-        File file = fileChooser.showOpenDialog(GUI.prim);
+        File file = fileChooser.showOpenDialog(StageModel.getPrim());
         String content = "";
         if(file != null) {
             try {

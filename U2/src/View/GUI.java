@@ -3,24 +3,28 @@ package View;
 import Controller.handleMenuActions;
 import Controller.handleToolbarAction;
 import Model.ImageLoader;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import Model.SearchStageModel;
+import Model.StageModel;
+import Model.TextAreaModel;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import static com.sun.org.apache.bcel.internal.util.SecuritySupport.getResourceAsStream;
+import static Model.SearchStageModel.*;
 
 /**
  * Created by Marvin Krüger S0556109.
  */
+//TODO: Add menu button mnemomics
 public class GUI{
-    public static TextArea ta =null;
-    public static Stage prim;
     public static void initialize(Stage primaryStage){
-        prim = primaryStage;
+        StageModel.setStage(primaryStage);
         double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
         double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -29,11 +33,11 @@ public class GUI{
         primaryStage.setWidth(screenWidth / 100 * 60);
         primaryStage.setHeight(screenHeight / 100 * 60);
 
-        ta = new TextArea();
-        ta.setWrapText(true);
+        TextAreaModel.setTa(new TextArea());
+        TextAreaModel.getTa().setWrapText(true);
         BorderPane layout = new BorderPane();
         layout.setTop(addMenuBar());
-        layout.setCenter(ta);
+        layout.setCenter(TextAreaModel.getTa());
         layout.setBottom(addToolbar());
 
         Scene sc = new Scene(layout);
@@ -48,7 +52,7 @@ public class GUI{
         MenuBar menuBar = new MenuBar();
 
         // --- Menu File
-        Menu menuFile = new Menu("Main");
+        Menu menuFile = new Menu("_File");
 
         //Create menu items
         MenuItem mI1 = new MenuItem("New");
@@ -68,6 +72,11 @@ public class GUI{
         mI3.setOnAction(new handleMenuActions());
         mI4.setOnAction(new handleMenuActions());
 
+        //Set shortcuts
+        mI1.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.SHORTCUT_DOWN));
+        mI2.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
+        mI3.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
+        mI4.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.SHORTCUT_DOWN));
 
 
         menuFile.getItems().addAll(mI1, mI2, mI3, mI4);
@@ -81,6 +90,33 @@ public class GUI{
         search.setOnAction(new handleToolbarAction());
         ToolBar toolBar = new ToolBar(search);
         return toolBar;
+    }
+
+    public static void showSearchDialogue(){
+
+        searchStage = new Stage();
+        searchStage.initModality(Modality.WINDOW_MODAL);
+        BorderPane layout = new BorderPane();
+        searchStage.initOwner(StageModel.getPrim());
+        Scene sc = new Scene(layout);
+
+        tf = new TextField("Search");
+        Button bt = new Button("SearchNow");
+        bt.setOnAction(new handleToolbarAction());
+        cb = new CheckBox("Case sensitive");
+        tfReplace = new TextField("Replace with");
+        BorderPane nestedLayout = new BorderPane();
+        nestedLayout.setBottom(tfReplace);
+        nestedLayout.setCenter(tf);
+        layout.setCenter(nestedLayout);
+        layout.setBottom(bt);
+        layout.setRight(cb);
+        searchStage.setScene(sc);
+        searchStage.show();
+    }
+
+    public static void closeStage(){
+        searchStage.close();
     }
 
 

@@ -2,13 +2,8 @@ package Controller;
 
 import Model.StageModel;
 import Model.TextAreaModel;
-import View.GUI;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
-import javafx.stage.FileChooser;
-
-import java.io.File;
-import java.io.FileWriter;
 
 /**
  * Created by Marvin Krüger S0556109.
@@ -35,10 +30,8 @@ public class handleMenuActions implements javafx.event.EventHandler<ActionEvent>
 
     }
 
-    public void exit(){
-        System.out.println("Exit");
+    private void exit(){
+        StageModel.getPrim().close();
         System.exit(0);
     }
-
-
 }
