@@ -5,56 +5,68 @@ import Controller.handleToolbarAction;
 import Model.ImageLoader;
 import Model.SearchStageModel;
 import Model.StageModel;
-import Model.TextAreaModel;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import static Model.SearchStageModel.*;
 
 /**
- * Created by Marvin Krüger S0556109.
+ * Class which creates and configures the gui
  */
 //TODO: Add menu button mnemomics
 public class GUI{
+    /**
+     * Method which is called initial to create the GUI
+     * @param primaryStage the main stage for the GUI
+     */
     public static void initialize(Stage primaryStage){
+
         StageModel.setStage(primaryStage);
+        createMenuBar();
+        createToolbar();
+
         double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
         double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
+        //Set stage properties
         primaryStage.setTitle("TextAreaModel Edit");
-
         primaryStage.setWidth(screenWidth / 100 * 60);
         primaryStage.setHeight(screenHeight / 100 * 60);
 
-        TextAreaModel.setTa(new TextArea());
-        TextAreaModel.getTa().setWrapText(true);
-        BorderPane layout = new BorderPane();
-        layout.setTop(addMenuBar());
-        layout.setCenter(TextAreaModel.getTa());
-        layout.setBottom(addToolbar());
+        //Creates TextArea
+        StageModel.setTa(new TextArea());
+        StageModel.getTa().setWrapText(true);
 
+        //Set layout and add elements
+        BorderPane layout = new BorderPane();
+        layout.setTop(StageModel.getMb());
+        layout.setCenter(StageModel.getTa());
+        layout.setBottom(StageModel.getTb());
+
+        //Set new scene and loading stylesheet
         Scene sc = new Scene(layout);
         sc.getStylesheets().add("style.css");
-
         primaryStage.setScene(sc);
-        addMenuBar();
+
         primaryStage.show();
     }
 
-    public static MenuBar addMenuBar(){
-        MenuBar menuBar = new MenuBar();
+    /**
+     * Method which handles all necessary stuff to add a menu bar
+     * @return
+     */
+    public static void createMenuBar(){
+        StageModel.setMb(new MenuBar());
 
-        // --- Menu File
+        //Menu File
         Menu menuFile = new Menu("_File");
 
-        //Create menu items
+        //Menu items
         MenuItem mI1 = new MenuItem("New");
         MenuItem mI2 = new MenuItem("Open");
         MenuItem mI3 = new MenuItem("Save");
@@ -80,44 +92,40 @@ public class GUI{
 
 
         menuFile.getItems().addAll(mI1, mI2, mI3, mI4);
-        menuBar.getMenus().addAll(menuFile);
-        return menuBar;
-
+        StageModel.getMb().getMenus().addAll(menuFile);
     }
 
-    public static ToolBar addToolbar(){
+    public static void createToolbar(){
         Button search = new Button("Search");
         search.setOnAction(new handleToolbarAction());
-        ToolBar toolBar = new ToolBar(search);
-        return toolBar;
+        StageModel.setTb(new ToolBar(search));
     }
 
     public static void showSearchDialogue(){
 
-        searchStage = new Stage();
-        searchStage.initModality(Modality.WINDOW_MODAL);
+        SearchStageModel.setSearchStage(new Stage());
+
+
         BorderPane layout = new BorderPane();
-        searchStage.initOwner(StageModel.getPrim());
         Scene sc = new Scene(layout);
 
-        tf = new TextField("Search");
-        Button bt = new Button("SearchNow");
-        bt.setOnAction(new handleToolbarAction());
-        cb = new CheckBox("Case sensitive");
-        tfReplace = new TextField("Replace with");
+        SearchStageModel.setTf(new TextField("Search"));
+        SearchStageModel.setBt(new Button("SearchNow"));
+        SearchStageModel.getBt().setOnAction(new handleToolbarAction());
+        SearchStageModel.setCb(new CheckBox("Case sensitive"));
+        SearchStageModel.setTfReplace(new TextField("Replace with"));
+
         BorderPane nestedLayout = new BorderPane();
-        nestedLayout.setBottom(tfReplace);
-        nestedLayout.setCenter(tf);
+        nestedLayout.setBottom(SearchStageModel.getTfReplace());
+        nestedLayout.setCenter(SearchStageModel.getTf());
         layout.setCenter(nestedLayout);
-        layout.setBottom(bt);
-        layout.setRight(cb);
-        searchStage.setScene(sc);
-        searchStage.show();
+        layout.setBottom(SearchStageModel.getBt());
+        layout.setRight(SearchStageModel.getCb());
+        SearchStageModel.getSearchStage().setScene(sc);
+        SearchStageModel.getSearchStage().show();
     }
 
-    public static void closeStage(){
-        searchStage.close();
-    }
+
 
 
 }

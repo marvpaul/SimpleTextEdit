@@ -1,37 +1,36 @@
 package Controller;
 
 import Model.StageModel;
-import Model.TextAreaModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
 
 /**
- * Created by Marvin Krüger S0556109.
+ * A class which controls menu action
  */
 public class handleMenuActions implements javafx.event.EventHandler<ActionEvent> {
+
+    /**
+     * Method which is called by processing an event from menu
+     * @param event
+     */
     @Override
     public void handle(ActionEvent event) {
         switch (((MenuItem) event.getSource()).getText()){
             case "Exit":
-                exit();
+                StageModel.exit();
                 break;
             case "Save":
 
-                TextAreaModel.save();
+                StageModel.save();
                 break;
             case "New":
-                TextAreaModel.clean();
+                StageModel.clean();
                 break;
             case "Open":
-                System.out.println("Open");
-                TextAreaModel.open();
+                StageModel.open();
                 break;
         }
 
-    }
-
-    private void exit(){
-        StageModel.getPrim().close();
-        System.exit(0);
     }
 }

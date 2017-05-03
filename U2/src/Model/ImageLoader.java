@@ -5,9 +5,14 @@ import javafx.scene.image.ImageView;
 
 
 /**
- * Created by Marvin Krüger S0556109.
+ * A class to load images
  */
 public class ImageLoader {
+    /**
+     * Method which loads an image from resources and convert it into ImageView
+     * @param icon the icon to load as .png in folder ../icons/
+     * @return the ImageView of this icon
+     */
     public ImageView loadIcon(String icon){
         Image image = new Image(getClass().getResourceAsStream("../icons/" + icon + ".png"));
         ImageView iconView = new ImageView(image);

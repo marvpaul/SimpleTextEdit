@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.SearchStageModel;
-import Model.TextAreaModel;
+import Model.StageModel;
 import View.GUI;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -23,7 +23,7 @@ public class handleToolbarAction implements javafx.event.EventHandler<ActionEven
                 GUI.showSearchDialogue();
                 break;
             case "SearchNow":
-                GUI.closeStage();
+                SearchStageModel.closeStage();
                 search();
                 break;
         }
@@ -36,15 +36,15 @@ public class handleToolbarAction implements javafx.event.EventHandler<ActionEven
         String searchString = SearchStageModel.getSearchString();
         if(!searchString.equals("")){
             if(SearchStageModel.caseSensitive()){
-                if (TextAreaModel.getText().indexOf(searchString) != -1) {
-                    int start = TextAreaModel.getText().indexOf(searchString);
-                    TextAreaModel.getTa().selectRange(start, start+searchString.length());
+                if (StageModel.getText().indexOf(searchString) != -1) {
+                    int start = StageModel.getText().indexOf(searchString);
+                    StageModel.getTa().selectRange(start, start+searchString.length());
                     checkForReplacing(start, start+searchString.length());
                 }
             } else{
-                if (TextAreaModel.getText().toLowerCase().indexOf(searchString.toLowerCase()) != -1) {
-                    int start = TextAreaModel.getText().toLowerCase().indexOf(searchString.toLowerCase());
-                    TextAreaModel.getTa().selectRange(start, start+searchString.length());
+                if (StageModel.getText().toLowerCase().indexOf(searchString.toLowerCase()) != -1) {
+                    int start = StageModel.getText().toLowerCase().indexOf(searchString.toLowerCase());
+                    StageModel.getTa().selectRange(start, start+searchString.length());
                     checkForReplacing(start, start+searchString.length());
                 }
             }
@@ -59,9 +59,9 @@ public class handleToolbarAction implements javafx.event.EventHandler<ActionEven
      * @param end end index of the founded substring
      */
     private void checkForReplacing(int start, int end){
-        if(!SearchStageModel.tfReplace.getText().equals("Replace with")){
-            TextAreaModel.getTa().deleteText(start, end);
-            TextAreaModel.getTa().insertText(start, SearchStageModel.tfReplace.getText());
+        if(!SearchStageModel.getTfReplace().getText().equals("Replace with")){
+            StageModel.getTa().deleteText(start, end);
+            StageModel.getTa().insertText(start, SearchStageModel.getTfReplace().getText());
         }
 
     }
