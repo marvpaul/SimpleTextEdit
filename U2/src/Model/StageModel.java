@@ -21,10 +21,18 @@ public class StageModel {
     private static MenuBar mb;
     private static ToolBar tb;
 
+    /**
+     * Getter fpr the current ToolBar
+     * @return the tb
+     */
     public static ToolBar getTb() {
         return tb;
     }
 
+    /**
+     *
+     * @param tb
+     */
     public static void setTb(ToolBar tb) {
         StageModel.tb = tb;
     }

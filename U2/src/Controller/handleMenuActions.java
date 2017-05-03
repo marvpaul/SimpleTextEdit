@@ -3,8 +3,6 @@ package Controller;
 import Model.StageModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
-
 /**
  * A class which controls menu action
  */
